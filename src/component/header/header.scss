@@ -1,0 +1,9 @@
+@import './src/color';
+
+.Header {
+  height: 64px;
+  display: flex;
+  background: $dark-black;
+  color: white;
+  padding: 14px 24px;
+}
