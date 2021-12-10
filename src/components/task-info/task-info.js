@@ -1,8 +1,8 @@
-import './task-list-item.scss';
+import './task-info.scss';
 
-export const TaskListItem = ({task}) => {
+export const TaskInfo = ({ task }) => {
   return (
-    <div className="TaskListItem">
+    <div className="TaskInfo">
       <div className="Avatar">{task.avatar}</div>
       <div className="Text">
         <div className="PersonaTodoes">{task.title}</div>
@@ -11,3 +11,4 @@ export const TaskListItem = ({task}) => {
     </div>
   );
 };
+

@@ -1,13 +1,12 @@
-import logo from './logo.svg';
 import './App.scss';
-import { Header } from './component/header/header';
-import { PageContent } from './component/page-content/page-content';
+import { Header } from './pages/header';
+import { PageContent } from './pages/page-content';
 
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <PageContent/>
+      <Header />
+      <PageContent />
     </div>
   );
 }

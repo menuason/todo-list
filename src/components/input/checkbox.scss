@@ -1,0 +1,19 @@
+.Checkbox {
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+  border: lightgrey 1px solid;
+  border-radius: 4px;
+}
+
+.CheckboxContainer {
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+
+}
+
+.Label {
+  color: lightgrey;
+
+}
