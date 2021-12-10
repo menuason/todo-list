@@ -1,52 +1,21 @@
 import './task-list.scss';
 import { TaskListItem } from './task-list-item';
-import { Component } from 'react';
 
-export class TaskList extends Component {
-  taskList = [
-    {
-      avatar: 'A',
-      title: 'bla',
-      description: 'blablabla',
-      todos: [
-        {
-          name: 'wash the dishes',
-          isDone: false,
-        },
-      ],
-    },
-    {
-      avatar: 'B',
-      title: 'kla',
-      description: 'klaklakla',
-      todos: [
-        {
-          name: 'wash the dishes',
-          isDone: false,
-        },
-      ],
-    },
-    {
-      avatar: 'c',
-      title: 'vla',
-      description: 'vlavlavla',
-      todos: [
-        {
-          name: 'wash the dishes',
-          isDone: false,
-        },
-      ],
-    },
-  ];
+export const TaskList = ({ taskList, handleTaskSelect, selectedTaskId }) => {
 
-  render() {
+  return (
+    <div className="TaskList">
+      {
+        taskList.map((task, ind) =>
+          <TaskListItem
+            key={ind}
+            task={task}
+            isSelected={ind === selectedTaskId}
+            onTaskSelect={() => handleTaskSelect(ind)}
+          />
+        )
+      }
+    </div>
+  );
+};
 
-    return (
-      <div className="TaskList">
-        {
-          this.taskList.map((task) => <TaskListItem task={task} />)
-        }
-      </div>
-    );
-  }
-}

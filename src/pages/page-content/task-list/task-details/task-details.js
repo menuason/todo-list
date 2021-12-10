@@ -2,31 +2,12 @@ import { TaskInfo } from '../../../../components/task-info';
 import { Divider } from '../../../../components/divider';
 import { TodoList } from '../../todo-list';
 
-export const TaskDetails = () => {
-  const task = {
-    avatar: 'B',
-    title: 'kla',
-    description: 'klaklakla',
-    todos: [
-      {
-        name: 'wash the dishes',
-        isDone: false,
-      },
-      {
-        name: 'wash the dishes',
-        isDone: false,
-      },
-      {
-        name: 'wash the dishes',
-        isDone: false,
-      },
-    ],
-  };
+export const TaskDetails = ({ selectedTask }) => {
   return (
     <div className="TaskDetails">
-      <TaskInfo task={task} />
+      <TaskInfo task={selectedTask} />
       <Divider />
-      <TodoList todos={task.todos} />
+      <TodoList todos={selectedTask.todos} />
     </div>
   );
 };
