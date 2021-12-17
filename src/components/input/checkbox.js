@@ -5,7 +5,7 @@ export const Checkbox = ({ label }) => {
     <div className="CheckboxContainer">
       <input type="checkbox" hidden />
       <div className="Checkbox" />
-      <span className="Label">{label}</span>
+      <span className="Label">{label }</span>
     </div>
   );
 };

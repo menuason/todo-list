@@ -1,0 +1,9 @@
+.AddTodoInput {
+  border: unset;
+  background: #23262C;
+
+  &:focus {
+    border: unset;
+    outline: none;
+  }
+}

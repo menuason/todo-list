@@ -1,7 +1,7 @@
 import './task-list.scss';
 import { TaskListItem } from './task-list-item';
 
-export const TaskList = ({ taskList, handleTaskSelect, selectedTaskId }) => {
+export const TaskList = ({ taskList, onTaskSelect, selectedTaskId }) => {
 
   return (
     <div className="TaskList">
@@ -11,11 +11,10 @@ export const TaskList = ({ taskList, handleTaskSelect, selectedTaskId }) => {
             key={ind}
             task={task}
             isSelected={ind === selectedTaskId}
-            onTaskSelect={() => handleTaskSelect(ind)}
-          />
+            onTaskSelect={() => onTaskSelect(ind)}
+          />,
         )
       }
     </div>
   );
 };
-

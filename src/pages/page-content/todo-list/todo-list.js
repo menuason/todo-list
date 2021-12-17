@@ -1,7 +1,9 @@
 import './todo-list.scss';
 import { Checkbox } from '../../../components/input';
+import { CreateNewTodo } from './create-new-todo/create-new-todo';
 
-export const TodoList = ({ todos }) => {
+export const TodoList = ({ todos, onNewTodo }) => {
+
   return (
     <div className="TodoList">
       {
@@ -13,6 +15,8 @@ export const TodoList = ({ todos }) => {
           );
         })
       }
+
+      <CreateNewTodo onNewTodo={onNewTodo}/>
     </div>
   );
 };

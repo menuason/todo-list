@@ -5,6 +5,7 @@ import { Component } from 'react';
 
 export class PageContent extends Component {
   state = {
+    isEditMode: true,
     taskList: [
       {
         avatar: 'A',
@@ -48,19 +49,35 @@ export class PageContent extends Component {
   };
 
   render() {
+    console.log(this.state);
 
-    const onTaskSelect = (ind) => {
+    const handleTaskSelect = (ind) => {
       this.setState({ selectedTask: ind });
     };
+
+    const handleNewTodo = (description) => {
+      const newTodo = { name: description, isDone: false };
+      const newTaskList = [...this.state.taskList];
+
+      newTaskList[this.state.selectedTask].todos = [...newTaskList[this.state.selectedTask].todos, newTodo];
+      // this.setState({ taskList: newTaskList[this.state.selectedTask].todos.concat(newTodo) });
+      // this.setState({ taskList: [...newTaskList[this.state.selectedTask].todos, newTodo] });
+
+      this.setState({ taskList: newTaskList });
+    };
+
 
     return (
       <div className="PageContent">
         <TaskList
           taskList={this.state.taskList}
-          handleTaskSelect={onTaskSelect}
           selectedTaskId={this.state.selectedTask}
+          onTaskSelect={handleTaskSelect}
         />
-        <TaskDetails selectedTask={this.state.taskList[this.state.selectedTask]} />
+        <TaskDetails
+          selectedTask={this.state.taskList[this.state.selectedTask]}
+          onNewTodo={handleNewTodo}
+        />
       </div>
     );
   }
