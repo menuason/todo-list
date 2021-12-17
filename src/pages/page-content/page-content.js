@@ -2,61 +2,64 @@ import './page-content.scss';
 import { TaskList } from './task-list';
 import { TaskDetails } from './task-list/task-details';
 import { Component } from 'react';
+import { CreateTaskForm } from './create-task-form/create-task-form';
+import { AddTaskCard } from './todo-list/add-task-card/add-task-card';
 
 export class PageContent extends Component {
   state = {
-    isEditMode: true,
-    taskList: [
-      {
-        avatar: 'A',
-        title: 'bla',
-        description: 'blablabla',
-        todos: [
-          {
-            name: 'wash the dishes1',
-            isDone: false,
-          },
-          {
-            name: 'wash the dishes2',
-            isDone: false,
-          },
-        ],
-      },
-      {
-        avatar: 'B',
-        title: 'kla',
-        description: 'klaklakla',
-        todos: [
-          {
-            name: 'wash the dishes',
-            isDone: false,
-          },
-        ],
-      },
-      {
-        avatar: 'c',
-        title: 'vla',
-        description: 'vlavlavla',
-        todos: [
-          {
-            name: 'wash the dishes',
-            isDone: false,
-          },
-        ],
-      },
-    ],
-    selectedTask: 0,
+    isEditMode: false,
+    // taskList: [
+    //   {
+    //     avatar: 'A',
+    //     title: 'bla',
+    //     description: 'blablabla',
+    //     todos: [
+    //       {
+    //         name: 'wash the dishes1',
+    //         isDone: false,
+    //       },
+    //       {
+    //         name: 'wash the dishes2',
+    //         isDone: false,
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     avatar: 'B',
+    //     title: 'kla',
+    //     description: 'klaklakla',
+    //     todos: [
+    //       {
+    //         name: 'wash the dishes',
+    //         isDone: false,
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     avatar: 'c',
+    //     title: 'vla',
+    //     description: 'vlavlavla',
+    //     todos: [
+    //       {
+    //         name: 'wash the dishes',
+    //         isDone: false,
+    //       },
+    //     ],
+    //   },
+    // ],
+    taskList: JSON.parse(localStorage.getItem('taskList')) ?? [],
+    selectedTask: null,
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
 
     const handleTaskSelect = (ind) => {
       this.setState({ selectedTask: ind });
     };
 
     const handleNewTodo = (description) => {
-      if(description === '') {
+      if (description === '') {
         return;
       }
 
@@ -68,18 +71,47 @@ export class PageContent extends Component {
       this.setState({ taskList: newTaskList });
     };
 
+    const handleNewTask = (task) => {
+      const newTaskList = [...this.state.taskList, task];
+      this.setState({ taskList: newTaskList });
+      localStorage.setItem('taskList', JSON.stringify(newTaskList));
+    };
+
+    const handleShowCreateForm = () => {
+      this.setState({ isEditMode: true });
+    };
+
+    const handleHideCreateForm = () => {
+      this.setState({isEditMode: false});
+    }
 
     return (
       <div className="PageContent">
-        <TaskList
-          taskList={this.state.taskList}
-          selectedTaskId={this.state.selectedTask}
-          onTaskSelect={handleTaskSelect}
-        />
-        <TaskDetails
-          selectedTask={this.state.taskList[this.state.selectedTask]}
-          onNewTodo={handleNewTodo}
-        />
+        <div className="TaskListContainer">
+
+          <AddTaskCard onClick={handleShowCreateForm}/>
+          <TaskList
+            taskList={this.state.taskList}
+            selectedTaskId={this.state.selectedTask}
+            onTaskSelect={handleTaskSelect}
+          />
+        </div>
+        {
+          this.state.selectedTask ? (
+            <TaskDetails
+              selectedTask={this.state.taskList[this.state.selectedTask]}
+              onNewTodo={handleNewTodo}
+            />
+          ) : (
+            (this.state.isEditMode &&
+              <CreateTaskForm
+                taskList={this.state.taskList}
+                onAddTask={handleNewTask}
+                onHideForm={handleHideCreateForm}
+              />
+            )
+          )
+        }
       </div>
     );
   }

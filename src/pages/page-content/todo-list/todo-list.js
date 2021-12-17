@@ -6,12 +6,16 @@ export const TodoList = ({ todos, onNewTodo }) => {
 
   return (
     <div className="TodoList">
+
       {
-        todos.map((todo, ind) => {
-          return (
-            <Checkbox key={ind} label={todo.name} />
-          );
-        })
+        todos.length && (
+          todos.map((todo, ind) => {
+              return (
+                <Checkbox key={ind} label={todo.name} />
+              );
+            },
+          )
+        )
       }
 
       <CreateNewTodo onNewTodo={onNewTodo} />
