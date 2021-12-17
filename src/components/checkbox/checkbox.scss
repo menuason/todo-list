@@ -4,13 +4,14 @@
   width: 24px;
   border: lightgrey 1px solid;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .CheckboxContainer {
   display: flex;
   gap: 8px;
   cursor: pointer;
-
+  align-items: center;
 }
 
 .Label {

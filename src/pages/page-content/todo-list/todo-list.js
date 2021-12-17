@@ -1,5 +1,5 @@
 import './todo-list.scss';
-import { Checkbox } from '../../../components/input';
+import { Checkbox } from '../../../components/checkbox';
 import { CreateNewTodo } from './create-new-todo/create-new-todo';
 
 export const TodoList = ({ todos, onNewTodo }) => {
@@ -9,14 +9,12 @@ export const TodoList = ({ todos, onNewTodo }) => {
       {
         todos.map((todo, ind) => {
           return (
-            <div className="CheckList" key={ind}>
-              <Checkbox label={todo.name} />
-            </div>
+            <Checkbox key={ind} label={todo.name} />
           );
         })
       }
 
-      <CreateNewTodo onNewTodo={onNewTodo}/>
+      <CreateNewTodo onNewTodo={onNewTodo} />
     </div>
   );
 };
