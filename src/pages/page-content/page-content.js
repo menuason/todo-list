@@ -56,12 +56,14 @@ export class PageContent extends Component {
     };
 
     const handleNewTodo = (description) => {
+      if(description === '') {
+        return;
+      }
+
       const newTodo = { name: description, isDone: false };
       const newTaskList = [...this.state.taskList];
 
       newTaskList[this.state.selectedTask].todos = [...newTaskList[this.state.selectedTask].todos, newTodo];
-      // this.setState({ taskList: newTaskList[this.state.selectedTask].todos.concat(newTodo) });
-      // this.setState({ taskList: [...newTaskList[this.state.selectedTask].todos, newTodo] });
 
       this.setState({ taskList: newTaskList });
     };

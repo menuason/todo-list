@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './create-new-todo.scss';
-import { IconMode } from './icon/icon-mode';
+import { AddIcon } from './icon/add-icon';
 
 export class CreateNewTodo extends Component {
   state = {
@@ -8,7 +8,7 @@ export class CreateNewTodo extends Component {
     description: '',
   };
 
-  onNewTodo = () => {
+  handleSwitchToCreateMode = () => {
     this.setState({
       isEditMode: true,
     });
@@ -37,7 +37,7 @@ export class CreateNewTodo extends Component {
           onChange={this.handleInputChange}
         />
       ) : (
-        <IconMode onClick={this.onNewTodo} />
+        <AddIcon onClick={this.handleSwitchToCreateMode} />
       )
     );
   }
