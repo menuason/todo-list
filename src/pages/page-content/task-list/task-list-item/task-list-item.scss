@@ -1,12 +1,16 @@
 @import '../../../../color';
 
 .TaskListItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   background: $card-black;
   width: 420px;
   border-radius: 20px;
   padding: 20px;
 }
 
-.isSelected{
+.isSelected {
   border: $lightgray 1px solid;
 }

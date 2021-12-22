@@ -1,0 +1,19 @@
+.Input {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: unset;
+  background: #23262C;
+}
+
+.InputInput {
+  color: lightgray;
+  background: #23262C;
+
+  &:focus {
+    border: unset;
+    outline: none;
+  }
+}
+
+

@@ -1,5 +1,11 @@
 @import '../../color';
 
+.TaskDetails{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .TaskInfo {
   display: flex;
   //width: 420px;

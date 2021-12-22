@@ -8,54 +8,16 @@ import { AddTaskCard } from './todo-list/add-task-card/add-task-card';
 export class PageContent extends Component {
   state = {
     isEditMode: false,
-    // taskList: [
-    //   {
-    //     avatar: 'A',
-    //     title: 'bla',
-    //     description: 'blablabla',
-    //     todos: [
-    //       {
-    //         name: 'wash the dishes1',
-    //         isDone: false,
-    //       },
-    //       {
-    //         name: 'wash the dishes2',
-    //         isDone: false,
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     avatar: 'B',
-    //     title: 'kla',
-    //     description: 'klaklakla',
-    //     todos: [
-    //       {
-    //         name: 'wash the dishes',
-    //         isDone: false,
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     avatar: 'c',
-    //     title: 'vla',
-    //     description: 'vlavlavla',
-    //     todos: [
-    //       {
-    //         name: 'wash the dishes',
-    //         isDone: false,
-    //       },
-    //     ],
-    //   },
-    // ],
     taskList: JSON.parse(localStorage.getItem('taskList')) ?? [],
-    selectedTask: null,
+    selectedTaskIndex: null,
   };
+
 
   render() {
     // console.log(this.state);
 
     const handleTaskSelect = (ind) => {
-      this.setState({ selectedTask: ind });
+      this.setState({ selectedTaskIndex: ind });
     };
 
     const handleNewTodo = (description) => {
@@ -66,7 +28,7 @@ export class PageContent extends Component {
       const newTodo = { name: description, isDone: false };
       const newTaskList = [...this.state.taskList];
 
-      newTaskList[this.state.selectedTask].todos = [...newTaskList[this.state.selectedTask].todos, newTodo];
+      newTaskList[this.state.selectedTaskIndex].todos = [...newTaskList[this.state.selectedTaskIndex].todos, newTodo];
 
       this.setState({ taskList: newTaskList });
     };
@@ -79,28 +41,47 @@ export class PageContent extends Component {
 
     const handleShowCreateForm = () => {
       this.setState({ isEditMode: true });
+      this.setState({ selectedTaskIndex: null });
     };
 
     const handleHideCreateForm = () => {
-      this.setState({isEditMode: false});
-    }
+      this.setState({ isEditMode: false });
+    };
+
+    const handleDeleteTodo = (todoIndex) => {
+      const selectedTask = this.state.taskList[this.state.selectedTaskIndex];
+      selectedTask.todos = selectedTask.todos.filter((todo, ind) => ind !== todoIndex);
+      const newTaskList = this.state.taskList;
+      this.setState({ taskList: newTaskList });
+      localStorage.setItem('taskList', JSON.stringify(newTaskList));
+    };
+
+    const handleDeleteTask = (index) => {
+      const selectedTask = this.state.taskList[index];
+      const newTaskList = this.state.taskList.filter((task) => task !== selectedTask);
+
+      this.setState({ taskList: newTaskList });
+      localStorage.setItem('taskList', JSON.stringify(newTaskList));
+    };
 
     return (
       <div className="PageContent">
         <div className="TaskListContainer">
 
-          <AddTaskCard onClick={handleShowCreateForm}/>
+          <AddTaskCard onClick={handleShowCreateForm} />
           <TaskList
             taskList={this.state.taskList}
-            selectedTaskId={this.state.selectedTask}
+            selectedTaskId={this.state.selectedTaskIndex}
             onTaskSelect={handleTaskSelect}
+            onDeleteTask={handleDeleteTask}
           />
         </div>
         {
-          this.state.selectedTask ? (
+          !!this.state.taskList[this.state.selectedTaskIndex] ? (
             <TaskDetails
-              selectedTask={this.state.taskList[this.state.selectedTask]}
+              selectedTask={this.state.taskList[this.state.selectedTaskIndex]}
               onNewTodo={handleNewTodo}
+              onDeleteTodo={(ind) => handleDeleteTodo(ind)}
             />
           ) : (
             (this.state.isEditMode &&

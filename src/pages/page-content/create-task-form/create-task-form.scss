@@ -1,0 +1,24 @@
+.CreateNewTaskForm {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 16px;
+}
+
+.InputContainer {
+  display: flex;
+  flex-direction: column;
+  gap:16px;
+}
+
+.ContainerForButton{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ContainerForAvatarAndInputs{
+  display: flex;
+  gap: 16px;
+}

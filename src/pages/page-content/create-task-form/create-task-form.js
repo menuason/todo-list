@@ -1,4 +1,7 @@
+import './create-task-form.scss';
 import { Component } from 'react';
+import { Input } from '../../../components/Input/input';
+import { Button } from '../../../components/button/button';
 
 export class CreateTaskForm extends Component {
   state = {
@@ -16,26 +19,33 @@ export class CreateTaskForm extends Component {
   };
 
   saveTask = () => {
-    this.props.onAddTask(this.state)
-  }
+    this.props.onAddTask(this.state);
+    this.props.onHideForm();
+  };
 
 
   render() {
     return (
-      <div>
-        <input
-          name="title"
-          placeholder="add title"
-          onChange={this.handleInputChange}
-        />
-        <input
-          name="description"
-          placeholder="add description"
-          onChange={this.handleInputChange}
-        />
-        <div>
-          <button onClick={this.props.onHideForm}> cancel </button>
-          <button onClick={this.saveTask} > save </button>
+      <div className="CreateNewTaskForm">
+        <div className="ContainerForAvatarAndInputs">
+          <div className="Avatar">a</div>
+          <div className="InputContainer">
+            <Input
+              name="title"
+              placeholder="add title"
+              onChange={this.handleInputChange}
+            />
+            <Input
+              name="description"
+              placeholder="add description"
+              onChange={this.handleInputChange}
+            />
+          </div>
+        </div>
+
+        <div className="ContainerForButton">
+          <Button type="button" onClick={this.props.onHideForm}> cancel </Button>
+          <Button type="button" variant="outlined" size="Small" onClick={this.saveTask}> save </Button>
         </div>
       </div>
     );
