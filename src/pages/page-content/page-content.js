@@ -14,7 +14,6 @@ export class PageContent extends Component {
 
 
   render() {
-    // console.log(this.state);
 
     const handleTaskSelect = (ind) => {
       this.setState({ selectedTaskIndex: ind });
@@ -84,7 +83,7 @@ export class PageContent extends Component {
               onDeleteTodo={(ind) => handleDeleteTodo(ind)}
             />
           ) : (
-            (this.state.isEditMode &&
+            this.state.isEditMode && (
               <CreateTaskForm
                 taskList={this.state.taskList}
                 onAddTask={handleNewTask}

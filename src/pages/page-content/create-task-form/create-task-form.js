@@ -2,6 +2,8 @@ import './create-task-form.scss';
 import { Component } from 'react';
 import { Input } from '../../../components/Input/input';
 import { Button } from '../../../components/button/button';
+import { Divider } from '../../../components/divider';
+import { TodoList } from '../todo-list';
 
 export class CreateTaskForm extends Component {
   state = {
@@ -19,14 +21,42 @@ export class CreateTaskForm extends Component {
   };
 
   saveTask = () => {
+    if (!this.state.description || !this.state.title) {
+      return;
+    }
     this.props.onAddTask(this.state);
     this.props.onHideForm();
   };
 
+  handleAddNewTodo = (todoName) => {
+
+    const newTodo = { name: todoName, isDone: false };
+    const todos = [...this.state.todos, newTodo];
+    this.setState({ todos });
+  };
+
+  handleDeleteTodo = (ind) => {
+    const selectedTodo = this.state.todos[ind];
+    const newTodos = this.state.todos.filter((todo) => todo !== selectedTodo);
+    this.setState({ todos: newTodos });
+  };
+
+  onKeyUp = (ev) => {
+    if (ev.key === 'Enter') {
+      if (!this.state.description || !this.state.title) {
+        return;
+      }
+      this.props.onAddTask(this.state);
+      this.props.onHideForm();
+    }
+    if (ev.key === 'Escape') {
+      this.props.onHideForm();
+    }
+  };
 
   render() {
     return (
-      <div className="CreateNewTaskForm">
+      <div className="CreateNewTaskForm" onKeyUp={this.onKeyUp}>
         <div className="ContainerForAvatarAndInputs">
           <div className="Avatar">a</div>
           <div className="InputContainer">
@@ -42,10 +72,19 @@ export class CreateTaskForm extends Component {
             />
           </div>
         </div>
+        <Divider />
+
+        <div className="TodosContainer">
+          <TodoList
+            onNewTodo={this.handleAddNewTodo}
+            onDeleteTodo={this.handleDeleteTodo}
+            todos={this.state.todos}
+          />
+        </div>
 
         <div className="ContainerForButton">
-          <Button type="button" onClick={this.props.onHideForm}> cancel </Button>
-          <Button type="button" variant="outlined" size="Small" onClick={this.saveTask}> save </Button>
+          <Button type="button" onClick={this.props.onHideForm}>Cancel</Button>
+          <Button type="button" variant="outlined" size="Small" onClick={this.saveTask}>Save</Button>
         </div>
       </div>
     );
