@@ -2,8 +2,8 @@ import './page-content.scss';
 import { TaskList } from './task-list';
 import { TaskDetails } from './task-list/task-details';
 import { Component } from 'react';
-import { CreateTaskForm } from './create-task-form/create-task-form';
-import { AddTaskCard } from './todo-list/add-task-card/add-task-card';
+import { CreateTaskForm } from './create-task-form';
+import { AddTaskCard } from './todo-list/add-task-card';
 
 export class PageContent extends Component {
   state = {

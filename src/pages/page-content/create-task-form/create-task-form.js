@@ -1,7 +1,7 @@
 import './create-task-form.scss';
 import { Component } from 'react';
-import { Input } from '../../../components/Input/input';
-import { Button } from '../../../components/button/button';
+import { Input } from '../../../components/input';
+import { Button } from '../../../components/button';
 import { Divider } from '../../../components/divider';
 import { TodoList } from '../todo-list';
 

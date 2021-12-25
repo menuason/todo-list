@@ -1,6 +1,6 @@
 import './todo-list.scss';
 import { Checkbox } from '../../../components/checkbox';
-import { CreateNewTodo } from './create-new-todo/create-new-todo';
+import { CreateNewTodo } from './create-new-todo';
 import { Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
