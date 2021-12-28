@@ -1,92 +1,91 @@
 import './create-task-form.scss';
-import { Component } from 'react';
-import { Input } from '../../../components/input';
+import { useState } from 'react';
 import { Button } from '../../../components/button';
 import { Divider } from '../../../components/divider';
 import { TodoList } from '../todo-list';
+import { Input } from '../../../components/Input';
 
-export class CreateTaskForm extends Component {
-  state = {
-    avatar: '',
-    title: '',
-    description: '',
-    todos: [],
-  };
+const DEFAULT_TASK_VALUE = {
+  avatar: '',
+  title: '',
+  description: '',
+  todos: [],
+};
 
-  handleInputChange = (ev) => {
-    const { value, name } = ev.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+export const CreateTaskForm = ({ onAddTask, taskList, onHideForm }) => {
+  const [draftTask, setDraftTask] = useState(DEFAULT_TASK_VALUE);
 
-  saveTask = () => {
-    if (!this.state.description || !this.state.title) {
+  const saveTask = () => {
+    if (!draftTask.description || !draftTask.title) {
       return;
     }
-    this.props.onAddTask(this.state);
-    this.props.onHideForm();
+    if (draftTask.description.length >= 25 || draftTask.title.length >= 25) {
+      return alert('not more than 25 letter');
+    }
+
+    onAddTask(draftTask);
+    onHideForm();
   };
 
-  handleAddNewTodo = (todoName) => {
+  const handleAddNewTodo = (todoName) => {
+    const draftNewTodo = { name: todoName, isDone: false };
+    const todos = [...draftTask.todos, draftNewTodo];
 
-    const newTodo = { name: todoName, isDone: false };
-    const todos = [...this.state.todos, newTodo];
-    this.setState({ todos });
+    setDraftTask({ ...draftTask, todos });
   };
 
-  handleDeleteTodo = (ind) => {
-    const selectedTodo = this.state.todos[ind];
-    const newTodos = this.state.todos.filter((todo) => todo !== selectedTodo);
-    this.setState({ todos: newTodos });
+  const handleDeleteTodo = (ind) => {
+    const selectedTodo = draftTask.todos[ind];
+    const newTodos = draftTask.todos.filter((todo) => todo !== selectedTodo);
+    setDraftTask({ ...draftTask, newTodos });
   };
 
-  onKeyUp = (ev) => {
+  const handleTaskFieldChange = (ev) => {
+    const { name, value } = ev.target;
+    setDraftTask({ ...draftTask, [name]: value });
+  };
+
+  const onKeyUp = (ev) => {
     if (ev.key === 'Enter') {
-      if (!this.state.description || !this.state.title) {
-        return;
-      }
-      this.props.onAddTask(this.state);
-      this.props.onHideForm();
+      saveTask();
     }
     if (ev.key === 'Escape') {
-      this.props.onHideForm();
+      onHideForm();
     }
   };
 
-  render() {
-    return (
-      <div className="CreateNewTaskForm" onKeyUp={this.onKeyUp}>
-        <div className="ContainerForAvatarAndInputs">
-          <div className="Avatar">a</div>
-          <div className="InputContainer">
-            <Input
-              name="title"
-              placeholder="add title"
-              onChange={this.handleInputChange}
-            />
-            <Input
-              name="description"
-              placeholder="add description"
-              onChange={this.handleInputChange}
-            />
-          </div>
-        </div>
-        <Divider />
-
-        <div className="TodosContainer">
-          <TodoList
-            onNewTodo={this.handleAddNewTodo}
-            onDeleteTodo={this.handleDeleteTodo}
-            todos={this.state.todos}
+  return (
+    <div className="CreateNewTaskForm" onKeyUp={onKeyUp}>
+      <div className="ContainerForAvatarAndInputs">
+        <div className="Avatar">a</div>
+        <div className="InputContainer">
+          <Input
+            name="title"
+            placeholder="add title"
+            maxLength="25"
+            onChange={handleTaskFieldChange}
+          />
+          <Input
+            name="description"
+            placeholder="add description"
+            onChange={handleTaskFieldChange}
           />
         </div>
-
-        <div className="ContainerForButton">
-          <Button type="button" onClick={this.props.onHideForm}>Cancel</Button>
-          <Button type="button" variant="outlined" size="Small" onClick={this.saveTask}>Save</Button>
-        </div>
       </div>
-    );
-  }
-}
+      <Divider />
+
+      <div className="TodosContainer">
+        <TodoList
+          todos={draftTask.todos}
+          onNewTodo={handleAddNewTodo}
+          onDeleteTodo={handleDeleteTodo}
+        />
+      </div>
+
+      <div className="ContainerForButton">
+        <Button type="button" onClick={onHideForm}>Cancel</Button>
+        <Button type="button" variant="outlined" size="Small" onClick={saveTask}>Save</Button>
+      </div>
+    </div>
+  );
+};

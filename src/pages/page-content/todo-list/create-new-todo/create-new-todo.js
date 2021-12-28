@@ -1,44 +1,32 @@
-import { Component } from 'react';
 import './create-new-todo.scss';
 import { AddIcon } from './icon/add-icon';
+import React, { useState } from 'react'
 
-export class CreateNewTodo extends Component {
-  state = {
-    isEditMode: false,
-    description: '',
+export const CreateNewTodo = ({ onNewTodo }) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [todoName, setTodoName] = useState('');
+
+  const handleSwitchToCreateMode = () => setIsEditMode(true);
+
+  const handleBlur = () => {
+    setIsEditMode(false);
+    setTodoName('');
+    onNewTodo(todoName);
   };
 
-  handleSwitchToCreateMode = () => {
-    this.setState({
-      isEditMode: true,
-    });
-  };
+  const handleInputChange = (ev) => setTodoName(ev.target.value);
 
-  handleBlur = () => {
-    this.setState({
-      isEditMode: false,
-      description: '',
-    });
-    this.props.onNewTodo(this.state.description);
-  };
-
-  handleInputChange = (ev) => {
-    this.setState({ description: ev.target.value });
-  };
-
-  render() {
-    return (
-      this.state.isEditMode ? (
-        <input
-          className="AddTodoInput"
-          value={this.state.description}
-          autoFocus
-          onBlur={this.handleBlur}
-          onChange={this.handleInputChange}
-        />
-      ) : (
-        <AddIcon onClick={this.handleSwitchToCreateMode} />
-      )
-    );
-  }
-}
+  return (
+    isEditMode ? (
+      <input
+        className="AddTodoInput"
+        value={todoName}
+        autoFocus
+        onBlur={handleBlur}
+        onChange={handleInputChange}
+      />
+    ) : (
+      <AddIcon onClick={handleSwitchToCreateMode} />
+    )
+  );
+};
