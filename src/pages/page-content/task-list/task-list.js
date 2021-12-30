@@ -1,7 +1,15 @@
 import './task-list.scss';
 import { TaskListItem } from './task-list-item';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../../store';
 
-export const TaskList = ({ taskList, onTaskSelect, selectedTaskId, onDeleteTask }) => {
+export const TaskList = ({ taskList, onTaskSelect, selectedTaskIndex }) => {
+  const dispatch = useDispatch();
+
+  const handleDeleteTask = (index) => {
+    dispatch({ type: actions.deleteTask, payload: index });
+  };
+
   return (
     <div className="TaskList">
       {
@@ -9,9 +17,9 @@ export const TaskList = ({ taskList, onTaskSelect, selectedTaskId, onDeleteTask 
           <TaskListItem
             key={ind}
             task={task}
-            isSelected={ind === selectedTaskId}
+            isSelected={ind === selectedTaskIndex}
             onTaskSelect={() => onTaskSelect(ind)}
-            onDeleteTask={() => onDeleteTask(ind)}
+            onDeleteTask={() => handleDeleteTask(ind)}
           />,
         )
       }

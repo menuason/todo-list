@@ -4,6 +4,8 @@ import { Button } from '../../../components/button';
 import { Divider } from '../../../components/divider';
 import { TodoList } from '../todo-list';
 import { Input } from '../../../components/Input';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../../store';
 
 const DEFAULT_TASK_VALUE = {
   avatar: '',
@@ -12,19 +14,23 @@ const DEFAULT_TASK_VALUE = {
   todos: [],
 };
 
-export const CreateTaskForm = ({ onAddTask, taskList, onHideForm }) => {
+export const CreateTaskForm = ({ onClose }) => {
+  const dispatch = useDispatch();
+
   const [draftTask, setDraftTask] = useState(DEFAULT_TASK_VALUE);
 
   const saveTask = () => {
-    if (!draftTask.description || !draftTask.title) {
+    dispatch({ type: actions.createTask, payload: draftTask })
+    const { description, title } = draftTask;
+
+    if (!description || !title) {
       return;
     }
-    if (draftTask.description.length >= 25 || draftTask.title.length >= 25) {
+    if (description.length >= 25 || title.length >= 25) {
       return alert('not more than 25 letter');
     }
 
-    onAddTask(draftTask);
-    onHideForm();
+    onClose();
   };
 
   const handleAddNewTodo = (todoName) => {
@@ -50,7 +56,7 @@ export const CreateTaskForm = ({ onAddTask, taskList, onHideForm }) => {
       saveTask();
     }
     if (ev.key === 'Escape') {
-      onHideForm();
+      onClose();
     }
   };
 
@@ -83,7 +89,7 @@ export const CreateTaskForm = ({ onAddTask, taskList, onHideForm }) => {
       </div>
 
       <div className="ContainerForButton">
-        <Button type="button" onClick={onHideForm}>Cancel</Button>
+        <Button type="button" onClick={onClose}>Cancel</Button>
         <Button type="button" variant="outlined" size="Small" onClick={saveTask}>Save</Button>
       </div>
     </div>

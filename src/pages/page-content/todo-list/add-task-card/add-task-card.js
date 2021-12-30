@@ -11,7 +11,7 @@ export const AddTaskCard = ({onClick}) => {
         className="Icon"
         color="grey"
       />
-      <div className="AddADoit"> Add a doit</div>
+      <span className="AddADoit"> Add a doit</span>
     </div>
   )
 }
