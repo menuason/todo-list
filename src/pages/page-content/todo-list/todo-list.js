@@ -8,20 +8,20 @@ export const TodoList = ({ todos, onNewTodo, onDeleteTodo }) => {
   return (
     <div className="TodoList">
       {
-        todos.length > 0 && (
-          todos.map((todo, ind) => {
-              return (
-                <div className="TodoItemContainer" key={ind}>
-                  <Checkbox label={todo.name} />
+        todos.map((todo) => {
+            return (
+              <div
+                key={todo.uid}
+                className="TodoItemContainer"
+              >
+                <Checkbox label={todo.name} />
 
-                  <IconButton onClick={() => onDeleteTodo(ind)}>
-                    <Close className="DeleteButton"/>
-                  </IconButton>
-
-                </div>
-              );
-            },
-          )
+                <IconButton onClick={() => onDeleteTodo(todo.uid)}>
+                  <Close className="DeleteButton"/>
+                </IconButton>
+              </div>
+            );
+          },
         )
       }
 

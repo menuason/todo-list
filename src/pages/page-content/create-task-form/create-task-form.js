@@ -7,6 +7,7 @@ import { Input } from '../../../components/Input';
 import { useDispatch } from 'react-redux';
 import { tasksSlice } from '../../../store';
 import { useNavigate } from 'react-router-dom';
+import genUid from 'light-uid';
 
 const DEFAULT_TASK_VALUE = {
   avatar: '',
@@ -40,16 +41,16 @@ export const CreateTaskForm = () => {
   };
 
   const handleAddNewTodo = (todoName) => {
-    const draftNewTodo = { name: todoName, isDone: false };
+    const draftNewTodo = { uid: genUid(), name: todoName, isDone: false };
     const todos = [...draftTask.todos, draftNewTodo];
 
     setDraftTask({ ...draftTask, todos });
   };
 
-  const handleDeleteTodo = (ind) => {
-    const selectedTodo = draftTask.todos[ind];
-    const newTodos = draftTask.todos.filter((todo) => todo !== selectedTodo);
-    setDraftTask({ ...draftTask, newTodos });
+  const handleDeleteTodo = (uid) => {
+    const selectedTodo = draftTask.todos.find((todo) => todo.uid === uid);
+    const todos = draftTask.todos.filter((todo) => todo !== selectedTodo);
+    setDraftTask({ ...draftTask, todos });
   };
 
   const handleTaskFieldChange = (ev) => {

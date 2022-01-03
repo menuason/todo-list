@@ -3,17 +3,16 @@ import { TaskListItem } from './task-list-item';
 import { useSelector } from 'react-redux';
 import { tasksSlice } from '../../../store';
 
-export const TaskList = ({ onTaskSelect, selectedTaskIndex }) => {
+export const TaskList = () => {
   const taskList = useSelector(tasksSlice.selectors.selectAll);
 
   return (
     <div className="TaskList">
       {
-        taskList.map((task, ind) => (
+        taskList.map((task) => (
           <TaskListItem
-            key={ind}
+            key={task.uid}
             task={task}
-            index={ind}
           />
         ))
       }
