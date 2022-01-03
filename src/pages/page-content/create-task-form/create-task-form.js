@@ -5,7 +5,8 @@ import { Divider } from '../../../components/divider';
 import { TodoList } from '../todo-list';
 import { Input } from '../../../components/Input';
 import { useDispatch } from 'react-redux';
-import { actions } from '../../../store';
+import { tasksSlice } from '../../../store';
+import { useNavigate } from 'react-router-dom';
 
 const DEFAULT_TASK_VALUE = {
   avatar: '',
@@ -14,23 +15,28 @@ const DEFAULT_TASK_VALUE = {
   todos: [],
 };
 
-export const CreateTaskForm = ({ onClose }) => {
+export const CreateTaskForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [draftTask, setDraftTask] = useState(DEFAULT_TASK_VALUE);
 
+  const handleClose = () => navigate('/');
+
   const saveTask = () => {
-    dispatch({ type: actions.createTask, payload: draftTask })
     const { description, title } = draftTask;
 
     if (!description || !title) {
       return;
     }
+
     if (description.length >= 25 || title.length >= 25) {
-      return alert('not more than 25 letter');
+      alert('not more than 25 letter');
+      return;
     }
 
-    onClose();
+    dispatch(tasksSlice.actions.createTask(draftTask));
+    handleClose();
   };
 
   const handleAddNewTodo = (todoName) => {
@@ -56,7 +62,7 @@ export const CreateTaskForm = ({ onClose }) => {
       saveTask();
     }
     if (ev.key === 'Escape') {
-      onClose();
+      handleClose();
     }
   };
 
@@ -89,7 +95,7 @@ export const CreateTaskForm = ({ onClose }) => {
       </div>
 
       <div className="ContainerForButton">
-        <Button type="button" onClick={onClose}>Cancel</Button>
+        <Button type="button" onClick={handleClose}>Cancel</Button>
         <Button type="button" variant="outlined" size="Small" onClick={saveTask}>Save</Button>
       </div>
     </div>

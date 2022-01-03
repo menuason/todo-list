@@ -9,8 +9,9 @@
   width: 420px;
   border-radius: 20px;
   padding: 20px;
-}
+  text-decoration: none;
 
-.isSelected {
-  border: $lightgray 1px solid;
+  &.Selected {
+    border: $lightgray 1px solid;
+  }
 }

@@ -2,21 +2,17 @@ import { TaskInfo } from '../../../../components/task-info';
 import { Divider } from '../../../../components/divider';
 import { TodoList } from '../../todo-list';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../../../../store';
-import { selectTaskByIndex } from '../../../../store/selectors';
+import { tasksSlice } from '../../../../store';
+import { useParams } from 'react-router-dom';
 
-export const TaskDetails = ({ selectedTaskIndex }) => {
-  const selectedTask = useSelector((state) => selectTaskByIndex(state, selectedTaskIndex));
+
+export const TaskDetails = () => {
+  const { taskIndex } = useParams();
+  const selectedTask = useSelector((state) => tasksSlice.selectors.selectByIndex(state, taskIndex));
   const dispatch = useDispatch();
 
-  const handleDeleteTodo = (ind) => {
-    dispatch({
-      type: actions.deleteTodo,
-      payload: {
-        taskIndex: selectedTaskIndex,
-        todoIndex: ind,
-      }
-    })
+  const handleDeleteTodo = (todoIndex) => {
+    dispatch(tasksSlice.actions.deleteTodo({ taskIndex, todoIndex }));
   };
 
   const handleNewTodo = (todoName) => {
@@ -24,14 +20,8 @@ export const TaskDetails = ({ selectedTaskIndex }) => {
       return;
     }
 
-    dispatch({
-      type: actions.createTodo,
-      payload: {
-        todoName,
-        taskIndex: selectedTaskIndex
-      }
-    })
-  }
+    dispatch(tasksSlice.actions.createTodo({ taskIndex, todoName }));
+  };
 
   if (!selectedTask) {
     return null;
