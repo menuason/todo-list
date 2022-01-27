@@ -1,6 +1,7 @@
 import './create-new-todo.scss';
 import { AddIcon } from './icon/add-icon';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+
 
 export const CreateNewTodo = ({ onNewTodo }) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -17,6 +18,7 @@ export const CreateNewTodo = ({ onNewTodo }) => {
   const handleInputChange = (ev) => setTodoName(ev.target.value);
 
   return (
+
     isEditMode ? (
       <input
         className="AddTodoInput"
@@ -26,7 +28,7 @@ export const CreateNewTodo = ({ onNewTodo }) => {
         onChange={handleInputChange}
       />
     ) : (
-      <AddIcon onClick={handleSwitchToCreateMode} />
-    )
+        <AddIcon onClick={handleSwitchToCreateMode} />
+      )
   );
 };

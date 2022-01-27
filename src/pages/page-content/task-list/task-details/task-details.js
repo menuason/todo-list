@@ -1,9 +1,9 @@
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { TaskInfo } from '../../../../components/task-info';
 import { Divider } from '../../../../components/divider';
 import { TodoList } from '../../todo-list';
-import { useDispatch, useSelector } from 'react-redux';
 import { tasksSlice } from '../../../../store';
-import { useParams } from 'react-router-dom';
 
 
 export const TaskDetails = () => {

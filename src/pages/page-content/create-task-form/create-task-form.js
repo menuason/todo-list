@@ -1,13 +1,48 @@
-import './create-task-form.scss';
 import { useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/button';
 import { Divider } from '../../../components/divider';
 import { TodoList } from '../todo-list';
 import { Input } from '../../../components/Input';
 import { useDispatch } from 'react-redux';
 import { tasksSlice } from '../../../store';
-import { useNavigate } from 'react-router-dom';
 import genUid from 'light-uid';
+import PatchStyles from 'patch-styles';
+
+const useStyles = makeStyles((theme) => ({
+  Avatar: {
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'blueviolet',
+    borderRadius: '100%',
+    border: 'white solid 1px',
+  },
+  CreateNewTaskForm: {
+    width: '100%',
+    gap: theme.spacing(2),
+  },
+
+  InputContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+  },
+
+  ContainerForButton: {
+    justifyContent: 'flex-end',
+    display: 'flex',
+    gap: theme.spacing(2),
+  },
+
+  ContainerForAvatarAndInputs: {
+    display: 'flex',
+    gap: theme.spacing(2),
+  },
+}));
 
 const DEFAULT_TASK_VALUE = {
   avatar: '',
@@ -67,38 +102,41 @@ export const CreateTaskForm = () => {
     }
   };
 
+  const classes = useStyles();
   return (
-    <div className="CreateNewTaskForm" onKeyUp={onKeyUp}>
-      <div className="ContainerForAvatarAndInputs">
-        <div className="Avatar">a</div>
-        <div className="InputContainer">
-          <Input
-            name="title"
-            placeholder="add title"
-            maxLength="25"
-            onChange={handleTaskFieldChange}
-          />
-          <Input
-            name="description"
-            placeholder="add description"
-            onChange={handleTaskFieldChange}
+    <PatchStyles classNames={classes}>
+      <div className="CreateNewTaskForm" onKeyUp={onKeyUp}>
+        <div className="ContainerForAvatarAndInputs">
+          <div className="Avatar">a</div>
+          <div className="InputContainer">
+            <Input
+              name="title"
+              placeholder="add title"
+              maxLength="25"
+              onChange={handleTaskFieldChange}
+            />
+            <Input
+              name="description"
+              placeholder="add description"
+              onChange={handleTaskFieldChange}
+            />
+          </div>
+        </div>
+        <Divider />
+
+        <div className="TodosContainer">
+          <TodoList
+            todos={draftTask.todos}
+            onNewTodo={handleAddNewTodo}
+            onDeleteTodo={handleDeleteTodo}
           />
         </div>
-      </div>
-      <Divider />
 
-      <div className="TodosContainer">
-        <TodoList
-          todos={draftTask.todos}
-          onNewTodo={handleAddNewTodo}
-          onDeleteTodo={handleDeleteTodo}
-        />
+        <div className="ContainerForButton">
+          <Button type="button" onClick={handleClose}>Cancel</Button>
+          <Button type="button" variant="outlined" size="Small" onClick={saveTask}>Save</Button>
+        </div>
       </div>
-
-      <div className="ContainerForButton">
-        <Button type="button" onClick={handleClose}>Cancel</Button>
-        <Button type="button" variant="outlined" size="Small" onClick={saveTask}>Save</Button>
-      </div>
-    </div>
+    </PatchStyles>
   );
 };
