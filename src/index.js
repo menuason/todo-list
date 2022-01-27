@@ -11,7 +11,7 @@ import { GeneralMuiConfig } from './main-provaiders/general-mui-config';
 ReactDOM.render(
   <React.StrictMode>
     <GeneralMuiConfig>
-      <BrowserRouter>
+      <BrowserRouter basename="/todo-list">
         <Provider store={store}>
           <App />
         </Provider>
