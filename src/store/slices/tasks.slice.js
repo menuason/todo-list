@@ -13,9 +13,9 @@ const slice = createSlice({
   name: 'tasks',
   initialState: getInitialState(),
   reducers: {
-    createTask: (state, { payload }) => {
-      state.allTasks.push({ uid: genUid(), ...payload });
-    },
+    // createTask: (state, { payload }) => {
+    //   state.allTasks.push({ uid: genUid(), ...payload });
+    // },
     deleteTask: (state, { payload: uid }) => {
       state.allTasks = state.allTasks.filter((task) => task.uid !== uid);
     },

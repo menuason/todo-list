@@ -9,7 +9,14 @@ export const tasksService = createApi({
     athor: build.query({
       query: (arg) => 'athor.json',
     }),
+    createTask: build.mutation({
+      query: (task) => ({
+        url: `tasks/${task.uid}.json`,
+        method:'PUT',
+        body: task,
+      }),
+    })
   }),
 });
 
-export const { useAthorQuery } = tasksService;
+export const { useAthorQuery, useCreateTaskMutation } = tasksService;
