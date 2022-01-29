@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { tasksSlice } from '../../../store';
 import { makeStyles } from '@mui/styles';
 import PatchStyles from 'patch-styles';
+import { useAthorQuery } from '../../../store/services/task-service';
 
 const useStyles = makeStyles((theme) => ({
   TaskList: {
@@ -13,8 +14,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const TaskList = () => {
+  const {isFetching, data} = useAthorQuery(null)
   const classes = useStyles();
   const taskList = useSelector(tasksSlice.selectors.selectAll);
+
+console.log('fetch, data', isFetching, data )
 
   return (
     <PatchStyles classNames={classes}>
