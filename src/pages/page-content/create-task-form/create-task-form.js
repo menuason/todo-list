@@ -7,7 +7,7 @@ import { TodoList } from '../todo-list';
 import { Input } from '../../../components/Input';
 import genUid from 'light-uid';
 import PatchStyles from 'patch-styles';
-import { useCreateTaskMutation } from '../../../store/services/task-service';
+import { useCreateTaskMutation, useFetchTaskListQuery } from '../../../store/services/task-service';
 
 const useStyles = makeStyles((theme) => ({
   Avatar: {
@@ -53,23 +53,20 @@ const DEFAULT_TASK_VALUE = {
 export const CreateTaskForm = () => {
   const [createTask, { isLoading, data }] = useCreateTaskMutation();
   const navigate = useNavigate();
-  console.log('useCreateTaskMutation', isLoading, data);
-
   const [draftTask, setDraftTask] = useState(DEFAULT_TASK_VALUE);
 
   const handleClose = () => navigate('/');
 
   const saveTask = () => {
     createTask({ ...draftTask, uid: genUid() });
-    // const { description, title } = draftTask;
-    // if (!description || !title) {
-    //   return;
-    // }
-    //
-    // if (description.length >= 25 || title.length >= 25) {
-    //   alert('not more than 25 letter');
-    //   return;
-    // }
+    const { description, title } = draftTask;
+    if (!description || !title) {
+      return;
+    }
+    if (description.length >= 25 || title.length >= 25) {
+      alert('not more than 25 letter');
+      return;
+    }
     //
     // dispatch(tasksSlice.actions.createTask(draftTask));
     handleClose();

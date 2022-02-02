@@ -2,16 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import { tasksSlice } from './slices/tasks.slice';
 import { tasksService } from './services/task-service';
 
-
 export const store = configureStore({
   reducer: {
-    [tasksService.reducerPath]: tasksService.reducerPath,
+    [tasksService.reducerPath]: tasksService.reducer,
     tasks: tasksSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => [
+  middleware: (getDefaultMiddleware) => ([
     ...getDefaultMiddleware(),
     tasksService.middleware,
-  ],
+  ]),
 });
 
 store.subscribe(() => {

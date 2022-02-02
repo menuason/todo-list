@@ -1,26 +1,41 @@
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { TaskInfo } from '../../../../components/task-info';
 import { Divider } from '../../../../components/divider';
 import { TodoList } from '../../todo-list';
-import { tasksSlice } from '../../../../store';
+import { useCreateTodoMutation, useDeleteTodoMutation, useFetchTaskListQuery } from '../../../../store/services/task-service';
+import genUid from 'light-uid';
 
 
 export const TaskDetails = () => {
   const { taskUid } = useParams();
-  const selectedTask = useSelector((state) => tasksSlice.selectors.selectByUid(state, taskUid));
-  const dispatch = useDispatch();
+  const [createTodo] = useCreateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
+
+  const { data: selectedTask } = useFetchTaskListQuery(null, {
+    selectFromResult: ({ data, ...otherInfo }) => ({
+      data: data && ({
+        ...data[taskUid],
+        todos:Array.from(Object.values(data[taskUid].todos ?? {})),
+    }),
+      ...otherInfo,
+    }),
+  });
 
   const handleDeleteTodo = (todoUid) => {
-    dispatch(tasksSlice.actions.deleteTodo({ taskUid, todoUid }));
+    deleteTodo({taskUid, todoUid});
   };
 
   const handleNewTodo = (todoName) => {
     if (todoName === '') {
       return;
     }
-
-    dispatch(tasksSlice.actions.createTodo({ taskUid, todoName }));
+    createTodo({
+      taskUid, todo: {
+        name: todoName,
+        uid: genUid,
+        isDone: false,
+      },
+    });
   };
 
   if (!selectedTask) {
@@ -30,9 +45,7 @@ export const TaskDetails = () => {
   return (
     <div className="TaskDetails">
       <TaskInfo task={selectedTask} />
-
       <Divider />
-
       <TodoList
         todos={selectedTask.todos}
         onNewTodo={handleNewTodo}
