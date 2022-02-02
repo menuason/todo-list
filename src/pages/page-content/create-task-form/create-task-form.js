@@ -7,7 +7,7 @@ import { TodoList } from '../todo-list';
 import { Input } from '../../../components/Input';
 import genUid from 'light-uid';
 import PatchStyles from 'patch-styles';
-import { useCreateTaskMutation, useFetchTaskListQuery } from '../../../store/services/task-service';
+import { useCreateTaskMutation } from '../../../store/services/task-service';
 
 const useStyles = makeStyles((theme) => ({
   Avatar: {
@@ -51,7 +51,7 @@ const DEFAULT_TASK_VALUE = {
 };
 
 export const CreateTaskForm = () => {
-  const [createTask, { isLoading, data }] = useCreateTaskMutation();
+  const [createTask] = useCreateTaskMutation();
   const navigate = useNavigate();
   const [draftTask, setDraftTask] = useState(DEFAULT_TASK_VALUE);
 
