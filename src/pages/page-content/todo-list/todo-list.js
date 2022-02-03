@@ -1,5 +1,5 @@
 import { CreateNewTodo } from './create-new-todo';
-import { FormControlLabel, IconButton, Checkbox } from '@mui/material';
+import { Checkbox, FormControlLabel, IconButton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import PatchStyles from 'patch-styles';
 import { Close } from '@mui/icons-material';
@@ -17,15 +17,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
   },
 
+  ToDoInfo: {
+    width: '100%',
+  },
+
+  InputContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
   DeleteButtonIcon: {
     color: '#d3d3d3ff',
     height: theme.spacing(2),
-    width: theme.spacing(2)
+    width: theme.spacing(2),
   },
   DeleteButton: {
     width: theme.spacing(2),
     height: theme.spacing(2),
-  }
+  },
 }));
 
 export const TodoList = ({ todos, onNewTodo, onDeleteTodo }) => {
@@ -35,18 +44,20 @@ export const TodoList = ({ todos, onNewTodo, onDeleteTodo }) => {
       <div className="TodoList">
         {
           todos.map((todo) => {
+
               return (
-                <>
+                <div className="InputContainer" key={todo.uid}>
                   <FormControlLabel
+                    className="ToDoInfo"
                     key={todo.uid}
                     control={(
                       <Checkbox />)}
-                    label={todo.name}
+                    label={(<Typography color="lightgrey"> {todo.name}</Typography>)}
                   />
                   <IconButton className="DeleteButton" onClick={() => onDeleteTodo(todo.uid)}>
                     <Close className="DeleteButtonIcon" />
                   </IconButton>
-                </>
+                </div>
               );
             },
           )

@@ -4,9 +4,18 @@ import { Divider } from '../../../../components/divider';
 import { TodoList } from '../../todo-list';
 import { useCreateTodoMutation, useDeleteTodoMutation, useFetchTaskListQuery } from '../../../../store/services/task-service';
 import genUid from 'light-uid';
+import { makeStyles } from '@mui/styles';
+import PatchStyles from 'patch-styles';
 
+const useStyles = makeStyles(() => ({
+  TaskDetails: {
+    width: '100%',
+  },
+}));
 
 export const TaskDetails = () => {
+
+  const classes = useStyles();
   const { taskUid } = useParams();
   const [createTodo] = useCreateTodoMutation();
   const [deleteTodo] = useDeleteTodoMutation();
@@ -15,14 +24,14 @@ export const TaskDetails = () => {
     selectFromResult: ({ data, ...otherInfo }) => ({
       data: data && ({
         ...data[taskUid],
-        todos:Array.from(Object.values(data[taskUid].todos ?? {})),
-    }),
+        todos: Array.from(Object.values(data[taskUid].todos ?? {})),
+      }),
       ...otherInfo,
     }),
   });
 
   const handleDeleteTodo = (todoUid) => {
-    deleteTodo({taskUid, todoUid});
+    deleteTodo({ taskUid, todoUid });
   };
 
   const handleNewTodo = (todoName) => {
@@ -43,14 +52,16 @@ export const TaskDetails = () => {
   }
 
   return (
-    <div className="TaskDetails">
-      <TaskInfo task={selectedTask} />
-      <Divider />
-      <TodoList
-        todos={selectedTask.todos}
-        onNewTodo={handleNewTodo}
-        onDeleteTodo={handleDeleteTodo}
-      />
-    </div>
+    <PatchStyles classNames={classes}>
+      <div className="TaskDetails">
+        <TaskInfo task={selectedTask} />
+        <Divider />
+        <TodoList
+          todos={selectedTask.todos}
+          onNewTodo={handleNewTodo}
+          onDeleteTodo={handleDeleteTodo}
+        />
+      </div>
+    </PatchStyles>
   );
 };
